@@ -1,26 +1,94 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #07080b;
+  --foreground: #f3f4f6;
+  --forge-amber: #f59e0b;
+  --forge-amber-glow: rgba(245, 158, 11, 0.25);
+  --mystic-blue: #38bdf8;
+  --mystic-purple: #818cf8;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+  --font-rpg: var(--font-cinzel), Georgia, serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #07080b;
+  color: #f3f4f6;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom RPG Font Class */
+.font-cinzel {
+  font-family: var(--font-cinzel), Georgia, serif;
+}
+
+/* Atmospheric Glows & Gradients */
+.glow-amber {
+  box-shadow: 0 0 35px -5px rgba(245, 158, 11, 0.35);
+}
+
+.glow-amber-lg {
+  box-shadow: 0 0 60px -10px rgba(245, 158, 11, 0.45);
+}
+
+.glow-text-amber {
+  text-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+}
+
+.glow-text-subtle {
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.25);
+}
+
+/* Metallic Text Gradients */
+.text-gold-gradient {
+  background: linear-gradient(180deg, #ffffff 0%, #fef3c7 30%, #f59e0b 80%, #b45309 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-silver-gradient {
+  background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 60%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* RPG Border & Card Styling */
+.rpg-border {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, rgba(19, 21, 31, 0.7) 0%, rgba(10, 12, 18, 0.85) 100%);
+  backdrop-filter: blur(12px);
+}
+
+.rpg-border-hover {
+  transition: all 0.3s ease;
+}
+
+.rpg-border-hover:hover {
+  border-color: rgba(245, 158, 11, 0.4);
+  box-shadow: 0 0 25px -5px rgba(245, 158, 11, 0.2);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #07080b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(245, 158, 11, 0.25);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(245, 158, 11, 0.5);
 }
