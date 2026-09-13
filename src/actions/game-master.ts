@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { getSupabaseEnv } from "@/lib/supabase/env";
 import { getCalendarDateInTimezone } from "@/lib/rpg/streak";
 import { GameMasterContextData, GameMasterMessage } from "@/lib/game-master/types";
 import { gameMasterProvider } from "@/lib/game-master/provider";
@@ -26,7 +27,7 @@ export interface GameMasterAdviceResult {
  * eligible in-app notifications if rules permit.
  */
 export async function getGameMasterAdviceAction(): Promise<GameMasterAdviceResult> {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  if (!getSupabaseEnv().isConfigured) {
     return { success: false, error: "Supabase credentials not configured." };
   }
 

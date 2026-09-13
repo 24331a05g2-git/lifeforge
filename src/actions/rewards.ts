@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { getSupabaseEnv } from "@/lib/supabase/env";
 import { RewardEvent } from "@/lib/rpg/types";
 
 export interface RewardActionResult<T> {
@@ -15,7 +16,7 @@ export interface RewardActionResult<T> {
 export async function getRewardHistoryAction(
   limit: number = 10
 ): Promise<RewardActionResult<RewardEvent[]>> {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  if (!getSupabaseEnv().isConfigured) {
     return { success: true, data: [] };
   }
 

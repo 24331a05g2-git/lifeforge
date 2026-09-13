@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { getSupabaseEnv } from "@/lib/supabase/env";
 import { AttributeScore, ProfileRecord } from "@/lib/assessment/types";
 
 export interface SaveProfileResult {
@@ -31,7 +32,7 @@ export async function saveCharacterProfileAction(payload: {
   }
 
   // Check if Supabase credentials exist
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  if (!getSupabaseEnv().isConfigured) {
     return {
       success: false,
       error: "Supabase credentials are not configured in .env.local. Please add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.",
@@ -128,7 +129,7 @@ export async function getCharacterProfileAction(): Promise<{
   profile: ProfileRecord | null;
   error?: string;
 }> {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  if (!getSupabaseEnv().isConfigured) {
     return { profile: null };
   }
 

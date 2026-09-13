@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { getSupabaseEnv } from "@/lib/supabase/env";
 import { getCalendarDateInTimezone } from "@/lib/rpg/streak";
 import { getPastCalendarDate } from "@/lib/camp/rules";
 import { computeAdaptiveSignals } from "@/lib/adaptive/signals";
@@ -16,7 +17,7 @@ import { Quest } from "@/lib/quests/types";
 export async function getAdaptiveDifficultyAction(): Promise<
   AdaptiveActionResult<AdaptiveRecommendation>
 > {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  if (!getSupabaseEnv().isConfigured) {
     return { success: false, error: "Supabase credentials not configured." };
   }
 

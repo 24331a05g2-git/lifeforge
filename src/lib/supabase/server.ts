@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { getSupabaseEnv } from "./env";
 
 /**
  * Creates a server-side Supabase client for Server Components, Server Actions,
@@ -7,15 +8,9 @@ import { cookies } from "next/headers";
  */
 export async function createClient() {
   const cookieStore = await cookies();
+  const { supabaseUrl, supabaseAnonKey } = getSupabaseEnv();
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!supabaseUrl || !supabaseAnonKey) {
-    // Return dummy client or client with empty strings during build/unconfigured state
-  }
-
-  return createServerClient(supabaseUrl || "", supabaseAnonKey || "", {
+  return createServerClient(supabaseUrl, supabaseAnonKey, {
     cookies: {
       getAll() {
         return cookieStore.getAll();

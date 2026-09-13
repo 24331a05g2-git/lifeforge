@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { getSupabaseEnv } from "@/lib/supabase/env";
 import { revalidatePath } from "next/cache";
 import {
   AchievementKey,
@@ -27,7 +28,7 @@ export interface AchievementsActionResult {
  * If newly eligible achievements are discovered, they are atomically granted.
  */
 export async function getUserAchievementsAction(): Promise<AchievementsActionResult> {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  if (!getSupabaseEnv().isConfigured) {
     return { success: false, achievements: [], unlockedCount: 0, totalCount: 8, error: "Database unconfigured." };
   }
 

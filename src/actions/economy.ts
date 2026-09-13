@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { getSupabaseEnv } from "@/lib/supabase/env";
 import { revalidatePath } from "next/cache";
 import { SHOP_CATALOG, getShopItemByKey } from "@/lib/economy/catalog";
 import {
@@ -18,7 +19,7 @@ export async function getShopCatalogAction(): Promise<{
   playerGold: number;
   error?: string;
 }> {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  if (!getSupabaseEnv().isConfigured) {
     return { success: false, catalog: [], playerGold: 0, error: "Database unconfigured." };
   }
 
@@ -73,7 +74,7 @@ export async function getShopCatalogAction(): Promise<{
 export async function purchaseShopItemAction(
   itemKey: string
 ): Promise<PurchaseActionResult> {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  if (!getSupabaseEnv().isConfigured) {
     return { success: false, error: "Database unconfigured." };
   }
 
@@ -202,7 +203,7 @@ export async function getUserInventoryAction(): Promise<{
   inventory: InventoryItem[];
   error?: string;
 }> {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  if (!getSupabaseEnv().isConfigured) {
     return { success: false, inventory: [], error: "Database unconfigured." };
   }
 

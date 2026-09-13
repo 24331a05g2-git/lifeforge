@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { getSupabaseEnv } from "@/lib/supabase/env";
 import { GameSession, GameSessionResult } from "@/lib/games/types";
 import { Quest } from "@/lib/quests/types";
 import { advanceActiveBossesOnQuestCompletion } from "@/actions/bosses";
@@ -20,7 +21,7 @@ export interface GameActionResult<T> {
 export async function startGameSessionAction(
   questId: string
 ): Promise<GameActionResult<GameSessionResult>> {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  if (!getSupabaseEnv().isConfigured) {
     return {
       success: false,
       error: "Supabase credentials are not configured in .env.local.",

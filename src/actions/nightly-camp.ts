@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { getSupabaseEnv } from "@/lib/supabase/env";
 import { Quest } from "@/lib/quests/types";
 import { getCalendarDateInTimezone } from "@/lib/rpg/streak";
 import { getCurrentTimeInTimezone } from "@/lib/notifications/rules";
@@ -40,7 +41,7 @@ const VALID_DIFFICULTIES: NightlyPlanDifficulty[] = ["easy", "normal", "challeng
  * - ARIA campfire reflection
  */
 export async function getNightlyCampDataAction(): Promise<CampActionResult<NightlyCampData>> {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  if (!getSupabaseEnv().isConfigured) {
     return { success: false, error: "Supabase credentials not configured." };
   }
 

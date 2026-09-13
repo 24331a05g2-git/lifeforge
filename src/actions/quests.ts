@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { getSupabaseEnv } from "@/lib/supabase/env";
 import {
   CreateQuestInput,
   Quest,
@@ -44,7 +45,7 @@ const VALID_STATUSES: QuestStatus[] = ["pending", "in_progress", "completed", "s
 export async function createQuestAction(
   input: CreateQuestInput
 ): Promise<QuestActionResult<Quest>> {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  if (!getSupabaseEnv().isConfigured) {
     return {
       success: false,
       error: "Supabase credentials are not configured in .env.local.",
@@ -154,7 +155,7 @@ export async function createQuestAction(
  * Retrieves all quests belonging to the authenticated user.
  */
 export async function getQuestsAction(): Promise<QuestActionResult<Quest[]>> {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  if (!getSupabaseEnv().isConfigured) {
     return { success: true, data: [] };
   }
 

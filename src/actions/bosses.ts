@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { getSupabaseEnv } from "@/lib/supabase/env";
 import { revalidatePath } from "next/cache";
 import { BossBattle, BossBattleSummary } from "@/lib/bosses/types";
 import {
@@ -23,7 +24,7 @@ export interface BossActionResult<T> {
 export async function getActiveBossAction(): Promise<
   BossActionResult<BossBattleSummary | null>
 > {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  if (!getSupabaseEnv().isConfigured) {
     return { success: false, error: "Database unconfigured." };
   }
 
@@ -108,7 +109,7 @@ export async function getActiveBossAction(): Promise<
 export async function claimBossRewardAction(
   bossId: string
 ): Promise<BossActionResult<{ xpEarned: number; goldEarned: number }>> {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  if (!getSupabaseEnv().isConfigured) {
     return { success: false, error: "Database unconfigured." };
   }
 

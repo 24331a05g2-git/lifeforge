@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { getSupabaseEnv } from "@/lib/supabase/env";
 import { Quest } from "@/lib/quests/types";
 import { RewardEvent } from "@/lib/rpg/types";
 import { ProfileRecord } from "@/lib/assessment/types";
@@ -37,7 +38,7 @@ export async function getWorldOverviewAction(): Promise<{
   data?: WorldOverviewData;
   error?: string;
 }> {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  if (!getSupabaseEnv().isConfigured) {
     return { success: false, error: "Supabase credentials not configured." };
   }
 
